@@ -1,0 +1,23 @@
+22
+idle_special_0 1 87 48 48
+jump_air 104 207 48 48
+normal 103 1 48 48
+idle_0 155 103 48 48
+jump_fall 2 37 48 48
+idle_1 155 155 48 48
+idle_var_0 206 52 48 48
+idle_special_9 1 206 48 48
+idle_var_1 104 104 48 48
+idle_special_8 52 207 48 48
+jump_prep 52 104 48 48
+idle_special_7 53 5 48 48
+walk_1 155 207 48 48
+idle_special_6 155 1 48 48
+walk_0 206 207 48 48
+idle_special_5 155 52 48 48
+walk_3 207 155 48 48
+idle_special_4 207 1 48 48
+walk_2 206 103 48 48
+idle_special_3 52 154 48 48
+idle_special_2 1 149 48 48
+idle_special_1 103 155 48 48
