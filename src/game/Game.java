@@ -7,7 +7,6 @@ import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Fade;
 import game.gameobjects.gameobjects.Text;
-import game.gameobjects.gameobjects.entities.entities.DeadBodyHandler;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
 import game.util.SaveHandler;
@@ -44,7 +43,6 @@ public class Game {
 	private Queue<GameObject> toAdd;				//list of gameObjects, that are added next Tick
 
 	private ParticleSystem particleSystem;			//display and store all particles
-	private DeadBodyHandler deadBodyHandler;		//display and store all deadBodies
 
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
@@ -73,7 +71,7 @@ public class Game {
 		addGameObject(coinCounter);
 
 		//Start the game in the "menu" map
-		setGameMap(Constants.SYS_PREFIX + "menu", false);
+		setGameMap("tutorial/tutorial", false);
 
 		this.audioPlayer = new AudioPlayer();
 		audioPlayer.getMusicSource().play("EP");
@@ -90,12 +88,6 @@ public class Game {
 			time = TimeUtil.getTime();
 			handleInput();
 			audioPlayer.update();
-
-			//update coinCounter
-			if (map == null || map.getDirectory() == null || map.getDirectory().equals("hidden"))
-				coinCounter.setText("");
-			else
-				coinCounter.setText(getKeyAmount(map.getDirectory() + "_coin_" + map.getName(), 1) + "/" + getKeyAmount(map.getDirectory() + "_coin_" + map.getName()) + " <coin>");
 
 			//change map
 			if (newMap != null && gameTick - fadeStart >= Constants.FADE_TIME / 2) {
@@ -131,7 +123,6 @@ public class Game {
 				if (gameObject instanceof CollisionObject) collisionObjects.remove(gameObject);
 				if (gameObject instanceof Drawable) window.removeDrawable((Drawable) gameObject);
 				if (gameObject instanceof ParticleSystem) particleSystem = null;
-				if (gameObject instanceof DeadBodyHandler) deadBodyHandler = null;
 				if (gameObject instanceof Player) {
 					int id = players.indexOf(gameObject);
 					players.remove(id);
@@ -152,7 +143,6 @@ public class Game {
 				if (gameObject instanceof CollisionObject) collisionObjects.add((CollisionObject) gameObject);
 				if (gameObject instanceof Drawable) window.addDrawable((Drawable) gameObject);
 				if (gameObject instanceof ParticleSystem) particleSystem = (ParticleSystem) gameObject;
-				if (gameObject instanceof DeadBodyHandler) deadBodyHandler = (DeadBodyHandler) gameObject;
 				if (gameObject instanceof Player) {
 					players.add((Player) gameObject);
 					((Player) gameObject).setColor(playerColors.get(players.size() - 1));
@@ -201,7 +191,6 @@ public class Game {
 			player.setMx(keyboard.getPressed(Options.controls.get("RIGHT" + input)) - keyboard.getPressed(Options.controls.get("LEFT" + input)));
 			player.setDown(keyboard.isPressed(Options.controls.get("DOWN" + input)));
 			player.setInteracting(keyboard.isPressed(Options.controls.get("INTERACT" + input)));
-			player.setAttacking(keyboard.isPressed(Options.controls.get("ATTACK" + input)));
 			if (keyboard.isPressed(Options.controls.get("RESET" + input))) restartMap();
 		}
 	}
@@ -299,13 +288,6 @@ public class Game {
 	 **/
 	public ParticleSystem getParticleSystem() {
 		return particleSystem;
-	}
-
-	/**
-	 * @return the DeadBodyHandler used to store DeadBodies
-	 **/
-	public DeadBodyHandler getDeadBodyHandler() {
-		return deadBodyHandler;
 	}
 
 	/**

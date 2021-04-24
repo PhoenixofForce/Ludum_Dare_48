@@ -6,7 +6,6 @@ import game.Game;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
-import game.gameobjects.gameobjects.entities.entities.Ladder;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleType;
 import game.util.MathUtil;
@@ -106,10 +105,6 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 			aerialTicks = 0;
 			onGround = true;
 			hasDoubleJumped = false;
-		}
-
-		if (gameObject instanceof Ladder) {
-			onLadder = true;
 		}
 	}
 

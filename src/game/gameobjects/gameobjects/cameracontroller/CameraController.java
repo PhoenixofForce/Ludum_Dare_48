@@ -41,9 +41,6 @@ public class CameraController extends AbstractGameObject {
 
 		List<HitBox> visibleObjects = game.getPlayers().stream().map(Player::getHitBox).collect(Collectors.toList());
 
-		List<HitBox> deadBodies = game.getDeadBodyHandler().getDeadBodies().entrySet().stream().filter(e -> e.getValue() >= game.getGameTick() - 60).map(e -> e.getKey().getHitBox()).collect(Collectors.toList());
-		visibleObjects.addAll(deadBodies);
-
 		boolean outside = false;
 
 		if (visibleObjects.size() > 0) {
