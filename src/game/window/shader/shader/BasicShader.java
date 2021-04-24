@@ -11,7 +11,7 @@ public class BasicShader extends ShaderProgram {
 
 	private int xLocation, yLocation, widthLocation, heightLocation;
 	private int texXLocation, texYLocation, texWLocation, texHLocation, colorLocation, useCameraLocation;
-	private int wobbleLocation;
+	private int wobbleLocation, mirrorLocation;
 
 	public BasicShader() {
 		super(BASIC_VERTEX_FILE, BASIC_FRAGMENT_FILE);
@@ -39,6 +39,7 @@ public class BasicShader extends ShaderProgram {
 
 		colorLocation = getUniformLocation("color");
 		useCameraLocation = getUniformLocation("useCamera");
+		mirrorLocation = getUniformLocation("mirror");
 	}
 
 	/**
@@ -92,4 +93,7 @@ public class BasicShader extends ShaderProgram {
 		setUniform1f(wobbleLocation, w);
 	}
 
+	public void setMirrored(boolean mirrored) {
+		setUniform1i(mirrorLocation, mirrored ? 1 : 0);
+	}
 }

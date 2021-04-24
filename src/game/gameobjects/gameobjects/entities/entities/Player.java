@@ -77,14 +77,14 @@ public class Player extends BasicWalkingEntity implements Light {
 			this.addAbility(Ability.DOUBLE_JUMP);
 
 		Sprite newSprite = null;
-		if (!onGround && mx != 0) newSprite = (mx < 0 ? jump_fall_r : jump_fall_r);
-		if (!onGround && mx == 0) newSprite = (lastMX < 0 ? jump_fall_r : jump_fall_r);
-		if (onGround && mx == 0) newSprite = (lastMX < 0 ? idle_r : idle_r);
-		if (onGround && mx != 0) newSprite = (mx < 0 ? move_r : move_r);
+		if (!onGround && mx != 0) newSprite = jump_fall_r;
+		if (!onGround && mx == 0) newSprite = jump_fall_r;
+		if (onGround && mx == 0) newSprite = idle_r;
+		if (onGround && mx != 0) newSprite = move_r;
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 
-
+		setMirrored(lastMX < 0);
 
 		if (interact > 0) {
 			for (CollisionObject collisionObject : game.getCollisionObjects()) {

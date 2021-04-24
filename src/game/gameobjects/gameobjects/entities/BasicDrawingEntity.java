@@ -22,6 +22,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 	protected Color color;
 	private boolean useCamera;
 	private float wobble;
+	private boolean mirrored;
 
 	private float drawingPriority;
 
@@ -34,6 +35,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 		color = Color.BLACK;
 		useCamera = true;
 		wobble = 0;
+		mirrored = false;
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 		shader.start();
 		shader.setWobble(wobble);
+		shader.setMirrored(mirrored);
 		shader.setUseCamera(useCamera);
 		shader.setColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 		shader.setTextureSheetBounds(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -92,5 +95,9 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 	public void setWobble(float wobble) {
 		this.wobble = wobble;
+	}
+
+	public void setMirrored(boolean mirrored) {
+		this.mirrored = mirrored;
 	}
 }

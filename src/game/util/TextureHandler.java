@@ -40,8 +40,6 @@ public class TextureHandler {
 	 **/
 	public static void loadImagePng(String textureName, String fileName) {
 		try {
-			System.out.println("res/textures/" + fileName + ".png");
-			System.out.println(new File("res/textures/" + fileName + ".png").exists());
 			textures_png.put(textureName, ImageIO.read(ClassLoader.getSystemResource("res/textures/" + fileName + ".png")));
 		} catch (IOException e) {
 			ErrorUtil.printError(String.format("Loading texture: %s", textureName));

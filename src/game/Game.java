@@ -42,7 +42,7 @@ public class Game {
 
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
-	private int time;
+	private int gameTime;
 
 	public Game(Window window) {
 		this.window = window;
@@ -74,6 +74,7 @@ public class Game {
 		long time;
 
 		while (window.isRunning()) {
+			gameTime += 1;
 			gameTick++;
 			time = TimeUtil.getTime();
 			handleInput();
@@ -96,7 +97,7 @@ public class Game {
 				}
 
 				map = newGameMap;
-				time = 0;
+				gameTime = 0;
 				map.load(this);
 				newMap = null;
 			}
