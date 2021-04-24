@@ -201,20 +201,6 @@ public class MapLoader {
 						map.setSpawnPoint(x, y, drawingPriority);
 						map.getCameraController().setSpawn(x, y);
 						break;
-					case "ability_gate_left":
-						Map<Ability, Boolean> abilities = new HashMap<>();
-						for (Ability ability : Ability.values()) {
-							abilities.put(ability, tags.getOrDefault("add", "").toUpperCase().contains(ability.toString()));
-						}
-						map.addGameObject(new AbilityGate(x, y, drawingPriority, abilities, false));
-						break;
-					case "ability_gate_right":
-						abilities = new HashMap<>();
-						for (Ability ability : Ability.values()) {
-							abilities.put(ability, tags.getOrDefault("add", "").toUpperCase().contains(ability.toString()));
-						}
-						map.addGameObject(new AbilityGate(x, y, drawingPriority, abilities, true));
-						break;
 					case "coin":
 						String coinID = String.format("%s_coin_%s_%f_%f", map.getDirectory(), map.getName(), x, y);
 						if (g.getValue(coinID) == 0) g.setValue(coinID, 0);
