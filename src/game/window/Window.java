@@ -5,7 +5,6 @@ import com.joml.utils.CamMath;
 import com.joml.vector.Vector3f;
 import game.Constants;
 import game.Options;
-import game.audio.AudioHandler;
 import game.util.ErrorUtil;
 import game.util.TextureHandler;
 import game.util.TimeUtil;
@@ -16,14 +15,12 @@ import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.openal.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,7 +48,6 @@ public class Window {
 	public Window() {
 		System.out.println(String.format("LWJGL Version %s", Version.getVersion()));
 
-		initOpenAL();
 		initGLFW();
 		initOpenGL();
 	}
@@ -177,30 +173,7 @@ public class Window {
 		GLFW.glfwDestroyWindow(window);
 		GLFW.glfwTerminate();
 		GLFW.glfwSetErrorCallback(null).free();
-
-		AudioHandler.cleanUp();
-		ALC10.alcDestroyContext(audioContext);
-		ALC10.alcCloseDevice(audioDevice);
 	}
-
-	/**
-	 * Sets up the audio system
-	 */
-	private void initOpenAL() {
-		audioDevice = ALC10.alcOpenDevice((ByteBuffer) null);
-		ALCCapabilities cap = ALC.createCapabilities(audioDevice);
-
-		audioContext = ALC10.alcCreateContext(audioDevice, (IntBuffer) null);
-		ALC10.alcMakeContextCurrent(audioContext);
-
-		AL.createCapabilities(cap);
-
-		System.out.println(String.format("OpenAL Version %s", AL10.alGetString(AL10.AL_VERSION)));
-
-		AL10.alListener3f(AL10.AL_POSITION, 0, 0, 0);
-		AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
-	}
-
 	/**
 	 * Sets up the graphics system
 	 */

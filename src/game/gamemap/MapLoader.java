@@ -45,8 +45,8 @@ public class MapLoader {
 			File f = new File(mapFolder, mapName + ".map");
 
 			if (!f.exists()) {
-				GameMap returnMap = load(g, Constants.SYS_PREFIX + "world");
-				Text text = new Text(-0.9f, -0.9f, -100, "Something went wrong. We send you back to the Menu", 0.05f, false, 0f, 0f, null);
+				GameMap returnMap = load(g, Constants.START_AREA);
+				Text text = new Text(-0.9f, -0.9f, -100, "Something went wrong. We send you back to the Tutorial", 0.05f, false, 0f, 0f, null);
 				text.setTimer(300);
 				returnMap.addGameObject(text);
 				return returnMap;
@@ -162,6 +162,15 @@ public class MapLoader {
 				}
 
 				switch (texture) {
+
+					case "door_side":
+					case "door_side_open_0":
+					case "door_side_open_1":
+					case "door_side_open":
+						String target = Constants.SYS_PREFIX + "world";
+						if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
+						map.addGameObject(new Exit(x, y, drawingPriority, target, null));
+						break;
 					case "player_r_idle_0":
 					case "player_r_idle_1":
 					case "player_r_move_0":

@@ -41,7 +41,7 @@ public class Constants {
 	public static final float MIN_AMP = 0.0001f;				//minimum amplitude for screenshakes before getting dumped 
 
 	public static final float MIN_CAMERA_ZOOM = 0.125f;			//nearest camera distance
-	public static final int FADE_TIME = 60;					//tick amount of camera fading
+	public static final int FADE_TIME = 120;					//tick amount of camera fading
 
 	public static final String SYS_PREFIX = String.valueOf(Math.random());	//internal prefix for private data
 
@@ -75,4 +75,6 @@ public class Constants {
 			DEFAULT_CONTROLS.put("RESET" + (i+2), Keyboard.GAMEPAD_1_BUTTON_BACK + 30*i);
 		}
 	}
+
+	public static final String START_AREA = "tutorial/tutorial";
 }

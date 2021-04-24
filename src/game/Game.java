@@ -1,12 +1,10 @@
 package game;
 
-import game.audio.AudioPlayer;
 import game.gamemap.GameMap;
 import game.gamemap.MapLoader;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Fade;
-import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
 import game.util.SaveHandler;
@@ -34,8 +32,6 @@ public class Game {
 	private List<Color> playerColors;				//list of playerColors, that are used to recolor the Player
 	private GameMap map;							//current GameMap
 
-	private AudioPlayer audioPlayer;
-
 	private int fadeStart;							//The startTick of a transition between maps
 	private String newMap;							//The target map for a map change
 	private Queue<GameObject> toRemove;				//list of gameObjects, that are removed next Tick
@@ -45,8 +41,6 @@ public class Game {
 	private ParticleSystem particleSystem;			//display and store all particles
 
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
-
-	private Text coinCounter;						//display coin amount on the screen
 
 	public Game(Window window) {
 		this.window = window;
@@ -67,14 +61,8 @@ public class Game {
 
 		values = new HashMap<>();
 
-		coinCounter = new Text(1, 0.98f, -1000, "<#coins>", 0.1f, false, 1f, 1f, null);
-		addGameObject(coinCounter);
-
 		//Start the game in the "menu" map
-		setGameMap("tutorial/tutorial", false);
-
-		this.audioPlayer = new AudioPlayer();
-		audioPlayer.getMusicSource().play("EP");
+		setGameMap(Constants.START_AREA, false);
 	}
 
 	/**
@@ -87,7 +75,6 @@ public class Game {
 			gameTick++;
 			time = TimeUtil.getTime();
 			handleInput();
-			audioPlayer.update();
 
 			//change map
 			if (newMap != null && gameTick - fadeStart >= Constants.FADE_TIME / 2) {
@@ -374,10 +361,6 @@ public class Game {
 	 **/
 	public void clearValues() {
 		values.clear();
-	}
-
-	public AudioPlayer getMusicPlayer() {
-		return audioPlayer;
 	}
 
 	public GameMap getMap() {
