@@ -125,9 +125,9 @@ public class Player extends BasicWalkingEntity implements Light {
 
 	@Override
 	public void getLightColor(float[] values) {
-		values[0] = 0.5f;
-		values[1] = 0.5f;
-		values[2] = 0f;
+		values[0] = 0.4f;
+		values[1] = 0.4f;
+		values[2] = 0.6f;
 	}
 
 	@Override

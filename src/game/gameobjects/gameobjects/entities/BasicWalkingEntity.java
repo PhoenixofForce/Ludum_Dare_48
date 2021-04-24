@@ -46,7 +46,7 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 		vx = mx * Constants.MAX_WALKING_SPEED * maxSpeed;
 		if (Math.abs(mx) >= 0.2f) lastMX = mx;
 
-		if (((onGround && !jumpingLastTick) || aerialTicks < Constants.COYOTE_TICKS) && jumping) {
+		if (((onGround && !jumpingLastTick) || (aerialTicks < Constants.COYOTE_TICKS && jumpTicks < 1)) && jumping) {
 			vy = Constants.JUMP_ACCELERATION * maxJumpHeight;
 			jumpTicks = 1;
 		} else if (jumpTicks == 0 && !jumpingLastTick && jumping && !hasDoubleJumped && (this instanceof Player && ((Player) this).hasAbility(Ability.DOUBLE_JUMP))) {
@@ -79,6 +79,8 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 	@Override
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
 		super.collide(gameObject, direction, velocity, source);
+
+		aerialTicks = Constants.COYOTE_TICKS + 1;
 
 		if (source && direction == HitBoxDirection.DOWN && velocity != 0) {
 			if (velocity > Constants.MAX_GRAVITY_SPEED + 0.01f) {

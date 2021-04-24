@@ -5,6 +5,7 @@ import game.gamemap.MapLoader;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Fade;
+import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
 import game.util.SaveHandler;
@@ -43,6 +44,7 @@ public class Game {
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
 	private int gameTime;
+	private Text clock;
 
 	public Game(Window window) {
 		this.window = window;
@@ -60,6 +62,9 @@ public class Game {
 		toRemove = new ConcurrentLinkedQueue<>();
 		toAdd = new ConcurrentLinkedQueue<>();
 		removeMapChange = new HashMap<>();
+
+		clock = new Text(0f, 0.98f, -1000, "<clock>", 0.2f, false, 0f, 1f, null); // TODO: should probably be an object of its own, which implements BasicDrawingEntity
+		addGameObject(clock);
 
 		values = new HashMap<>();
 

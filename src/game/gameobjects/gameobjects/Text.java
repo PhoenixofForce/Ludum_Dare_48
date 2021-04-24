@@ -29,7 +29,7 @@ import java.util.Optional;
  * draws text on the screen
  */
 public class Text extends AbstractGameObject implements Drawable {
-	private Sprite coin = new Sprite(100, "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin_idle1_0", "coin_idle1_1", "coin_idle1_2", "coin_idle1_3", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin", "coin_idle2_0", "coin_idle2_1", "coin_idle2_0");
+	private Sprite clock = new Sprite(100, "clock");
 	private Sprite stick_up = new Sprite(300, "stick_up_0", "stick_up_1", "stick_up_2", "stick_up_3", "stick_up_2", "stick_up_1");
 	private Sprite stick_down = new Sprite(300, "stick_down_0", "stick_down_1", "stick_down_2", "stick_down_3", "stick_down_2", "stick_down_1");
 	private Sprite stick_left = new Sprite(300, "stick_left_0", "stick_left_1", "stick_left_2", "stick_left_3", "stick_left_2", "stick_left_1");
@@ -330,9 +330,6 @@ public class Text extends AbstractGameObject implements Drawable {
 				case "button_y":
 					animations.put(index, buttonY);
 					break;
-				case "coin":
-					animations.put(index, coin);
-					break;
 				case "key_up":
 					animations.put(index, key);
 					replacement = "↑";
@@ -348,6 +345,9 @@ public class Text extends AbstractGameObject implements Drawable {
 				case "key_right":
 					animations.put(index, key);
 					replacement = "→";
+					break;
+				case "clock":
+					animations.put(index, clock);
 					break;
 				default:
 					if (Character.isLetter(object.charAt(0)) && object.length() == 1) {
