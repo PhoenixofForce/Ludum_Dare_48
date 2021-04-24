@@ -42,14 +42,14 @@ public class Player extends BasicWalkingEntity implements Light {
 		attack = 0;
 		interact = 0;
 
+		setWobble(0);
+
 		setSprite(idle_r);
 	}
 
 	@Override
 	public void init(Game game) {
 		super.init(game);
-
-		game.getParticleSystem().createParticle(ParticleType.EXPLOSION, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0);
 	}
 
 	@Override

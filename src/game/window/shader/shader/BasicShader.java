@@ -11,6 +11,7 @@ public class BasicShader extends ShaderProgram {
 
 	private int xLocation, yLocation, widthLocation, heightLocation;
 	private int texXLocation, texYLocation, texWLocation, texHLocation, colorLocation, useCameraLocation;
+	private int wobbleLocation;
 
 	public BasicShader() {
 		super(BASIC_VERTEX_FILE, BASIC_FRAGMENT_FILE);
@@ -34,6 +35,7 @@ public class BasicShader extends ShaderProgram {
 		texYLocation = getUniformLocation("texY");
 		texHLocation = getUniformLocation("texH");
 		texWLocation = getUniformLocation("texW");
+		wobbleLocation = getUniformLocation("wobble");
 
 		colorLocation = getUniformLocation("color");
 		useCameraLocation = getUniformLocation("useCamera");
@@ -85,4 +87,9 @@ public class BasicShader extends ShaderProgram {
 	public void setColor(float r, float g, float b, float a) {
 		setUniform4f(colorLocation, r, g, b, a);
 	}
+
+	public void setWobble(float w) {
+		setUniform1f(wobbleLocation, w);
+	}
+
 }

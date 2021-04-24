@@ -24,6 +24,8 @@ public class Exit extends BasicStaticEntity {
 		this.targetMap = targetMap;
 		this.onEntrance = onEntrance;
 
+		this.setWobble(1);
+
 		setSprite(door);
 	}
 

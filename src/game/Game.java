@@ -42,6 +42,8 @@ public class Game {
 
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
+	private int time;
+
 	public Game(Window window) {
 		this.window = window;
 		Options.applyOptions(this);
@@ -94,6 +96,7 @@ public class Game {
 				}
 
 				map = newGameMap;
+				time = 0;
 				map.load(this);
 				newMap = null;
 			}

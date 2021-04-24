@@ -52,7 +52,7 @@ public class ShaderHandler {
 	public void setTime(float time) {
 		shaders.values().forEach(shader -> {
 			shader.start();
-			shader.setTime(time);
+			shader.setTime(time / 1000f);
 		});
 	}
 

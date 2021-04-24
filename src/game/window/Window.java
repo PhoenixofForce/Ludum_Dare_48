@@ -99,7 +99,7 @@ public class Window {
 		updateViewMatrix();
 
 		long time = TimeUtil.getTime();
-		shaderHandler.setTime(time);
+		shaderHandler.setTime(time % 100000000);
 
 		drawables.forEach(drawable -> drawable.draw(this, time));
 

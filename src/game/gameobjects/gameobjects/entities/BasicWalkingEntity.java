@@ -7,7 +7,6 @@ import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.entities.Player;
-import game.gameobjects.gameobjects.particle.ParticleType;
 import game.util.MathUtil;
 
 /**
@@ -53,7 +52,6 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 		} else if (jumpTicks == 0 && !jumpingLastTick && jumping && !hasDoubleJumped && (this instanceof Player && ((Player) this).hasAbility(Ability.DOUBLE_JUMP))) {
 			jumpTicks = 1;
 			vy = Constants.JUMP_ACCELERATION * maxJumpHeight;
-			game.getParticleSystem().createParticle(ParticleType.CLOUD, hitBox.getCenterX(), hitBox.y, 0, -0.02f);
 			hasDoubleJumped = true;
 		} else if (jumpTicks > 0 && jumping && vy > 0) {
 			jumpTicks++;
@@ -85,8 +83,6 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 		if (source && direction == HitBoxDirection.DOWN && velocity != 0) {
 			if (velocity > Constants.MAX_GRAVITY_SPEED + 0.01f) {
 				game.getCamera().addScreenshake(velocity / 15);
-
-				game.getParticleSystem().createParticle(ParticleType.EXPLOSION, hitBox.getCenterX(), hitBox.y, 0, 0);
 
 				HitBox stomp = new HitBox(hitBox.x - (2 - hitBox.width) / 2, hitBox.y - 0.25f, 2f, 0.5f);
 

@@ -21,6 +21,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 	protected Sprite sprite;
 	protected Color color;
 	private boolean useCamera;
+	private float wobble;
 
 	private float drawingPriority;
 
@@ -32,6 +33,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 		color = Color.BLACK;
 		useCamera = true;
+		wobble = 0;
 	}
 
 	@Override
@@ -48,6 +50,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 		BasicShader shader = (BasicShader) window.getShaderHandler().getShader(ShaderType.BASIC_SHADER);
 
 		shader.start();
+		shader.setWobble(wobble);
 		shader.setUseCamera(useCamera);
 		shader.setColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 		shader.setTextureSheetBounds(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -85,5 +88,9 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 	public void setUseCamera(boolean useCamera) {
 		this.useCamera = useCamera;
+	}
+
+	public void setWobble(float wobble) {
+		this.wobble = wobble;
 	}
 }
