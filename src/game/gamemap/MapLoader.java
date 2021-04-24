@@ -1,13 +1,9 @@
 package game.gamemap;
 
-import game.Ability;
 import game.Constants;
 import game.Game;
-import game.Options;
 import game.data.hitbox.HitBox;
 import game.data.script.Parser;
-import game.data.script.Tree;
-import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.cameracontroller.Area;
 import game.gameobjects.gameobjects.entities.entities.*;
@@ -15,16 +11,12 @@ import game.gameobjects.gameobjects.wall.Background;
 import game.gameobjects.gameobjects.wall.Wall;
 import game.util.ErrorUtil;
 import game.util.FileHandler;
-import game.util.SaveHandler;
 import game.util.TextureHandler;
 
 import java.awt.*;
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MapLoader {
 	private static final File mapFolder = new File(System.getProperty("user.dir") + File.separator + "maps" + File.separator);
@@ -53,15 +45,15 @@ public class MapLoader {
 			}
 
 			map.setMapInfo(mapName.split("/")[0], mapName.split("/")[1]);
-			fileScanner = new Scanner(FileHandler.loadFile(f));
+			fileScanner = new Scanner(Objects.requireNonNull(FileHandler.loadFile(f)));
 
 		} else {
-			fileScanner = new Scanner(ClassLoader.getSystemResourceAsStream("res/files/systemMaps/" + mapName.replace(Constants.SYS_PREFIX, "") + ".map"));
+			fileScanner = new Scanner(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("res/files/systemMaps/" + mapName.replace(Constants.SYS_PREFIX, "") + ".map")));
 		}
 
 		{
 			String[] lineOne = fileScanner.nextLine().replaceAll(" ", "").replaceAll("\\[", "").replaceAll("]", "").split(";");
-			Constants.PIXEL_PER_TILE = Integer.valueOf(lineOne[0]);
+			Constants.PIXEL_PER_TILE = Integer.parseInt(lineOne[0]);
 
 			Map<String, String> tags = new HashMap<>();
 
@@ -161,89 +153,35 @@ public class MapLoader {
 					i++;
 				}
 
-				switch (texture) {
+				if(texture.matches("portal_.*")) {
+					String target = Constants.SYS_PREFIX + "world";
+					if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
+					map.addGameObject(new Exit(x, y+0.5f, drawingPriority, target, null));
+				}
 
-					case "door_side":
-					case "door_side_open_0":
-					case "door_side_open_1":
-					case "door_side_open":
-						String target = Constants.SYS_PREFIX + "world";
-						if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
-						map.addGameObject(new Exit(x, y, drawingPriority, target, null));
-						break;
-					case "player_r_idle_0":
-					case "player_r_idle_1":
-					case "player_r_move_0":
-					case "player_r_move_1":
-					case "player_r_move_2":
-					case "player_r_move_3":
-					case "player_r_fall":
-					case "player_r_sword_0":
-					case "player_r_sword_1":
-					case "player_r_sword_2":
-					case "player_r_sword_3":
-					case "player_r_sword_4":
-					case "player_r_sword_5":
-					case "player_r_sword_6":
-					case "player_l_idle_0":
-					case "player_l_idle_1":
-					case "player_l_move_0":
-					case "player_l_move_1":
-					case "player_l_move_2":
-					case "player_l_move_3":
-					case "player_l_fall":
-					case "player_l_sword_0":
-					case "player_l_sword_1":
-					case "player_l_sword_2":
-					case "player_l_sword_3":
-					case "player_l_sword_4":
-					case "player_l_sword_5":
-					case "player_l_sword_6":
-						map.setSpawnPoint(x, y, drawingPriority);
-						map.getCameraController().setSpawn(x, y);
-						break;
-					case "a":
-					case "b":
-					case "c":
-					case "d":
-					case "e":
-					case "f":
-					case "g":
-					case "h":
-					case "i":
-					case "j":
-					case "k":
-					case "l":
-					case "m":
-					case "n":
-					case "o":
-					case "p":
-					case "q":
-					case "r":
-					case "s":
-					case "t":
-					case "u":
-					case "v":
-					case "w":
-					case "x":
-					case "y":
-					case "z":
-						map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
-						break;
-					default:
-						HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
+				else if(texture.matches("player_.*")) {
+					map.setSpawnPoint(x, y, drawingPriority);
+					map.getCameraController().setSpawn(x, y);
+				}
 
-						switch (texture) {
-							case "platform":
-							case "platform_left":
-							case "platform_middle":
-							case "platform_right":
-								hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
-								break;
+				else if(texture.matches("[A-z0-9]")) {
+					map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
+				}
 
-						}
+				else {
+					HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
 
-						add(layers, hitBox, texture, drawingPriority);
+					switch (texture) {
+						case "platform":
+						case "platform_left":
+						case "platform_middle":
+						case "platform_right":
+							hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
+							break;
+
+					}
+
+					add(layers, hitBox, texture, drawingPriority);
 				}
 			}
 
@@ -313,7 +251,7 @@ public class MapLoader {
 			File initialMap = new File(f.getAbsolutePath() + "/" + f.getName() + ".map");
 			if (initialMap.exists()) maps.add(f.getName() + "/" + f.getName());
 			if (all) {
-				for (File f2 : f.listFiles()) {
+				for (File f2 : Objects.requireNonNull(f.listFiles())) {
 					if (f2.getName().endsWith(".map")) maps.add(f.getName() + "/" + f2.getName().replace(".map", ""));
 				}
 			}

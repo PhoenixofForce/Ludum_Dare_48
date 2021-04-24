@@ -21,7 +21,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static final int INTERACT_TICKS = 5;
 
 	private static Sprite move_r = new Sprite("player_walk", 4, 100);
-	private static Sprite idle_r = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_1");
+	private static Sprite idle_r = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_0", "player_idle_1", "player_idle_1");
 	private static Sprite idle_special_r = new Sprite("player_idle_special", 10, 100);
 	private static Sprite jump_prep_r = new Sprite("player_jump_prep");
 	private static Sprite jump_air_r = new Sprite("player_jump_air");
@@ -33,7 +33,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	private int attack, interact;
 
 	public Player(float x, float y, float drawingPriority) {
-		super(new HitBox(x, y, 0.75f, 0.999f), drawingPriority);
+		super(new HitBox(x, y, 0.25f, 0.999f), drawingPriority);
 
 		abilities = new HashSet<>();
 		interacting = false;

@@ -12,8 +12,8 @@ import game.gameobjects.gameobjects.entities.BasicStaticEntity;
  * A door used to go into a new map
  */
 public class Exit extends BasicStaticEntity {
-	private static Sprite door = new Sprite(1, "door_side");
-	private static Sprite doorOpen = new Sprite(100, "door_side_open_0", "door_side_open_1", "door_side_open_2", "door_side_open_2", "door_side_open_2", "door_side_open_2");
+	private static Sprite door = new Sprite("portal_idle", 5, 100);
+	private static Sprite door_deactivated = new Sprite("portal_empty");
 
 	private String targetMap;				//name of the new map
 	private Tree onEntrance;
@@ -48,7 +48,7 @@ public class Exit extends BasicStaticEntity {
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
 		if (gameObject instanceof Player && interactionType == InteractionType.INTERACT) {
 			if (game.setGameMap(targetMap, true)) {
-				setSprite(doorOpen);
+				setSprite(door);
 				if (onEntrance != null) onEntrance.get(game);
 			}
 		}

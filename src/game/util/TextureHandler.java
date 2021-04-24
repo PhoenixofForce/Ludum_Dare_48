@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL14;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class TextureHandler {
@@ -56,9 +56,9 @@ public class TextureHandler {
 		try {
 			//loading spritesheet.png and reading number of subimages
 			loadImagePng(spriteSheetName, fileName);
-			Scanner s = new Scanner(ClassLoader.getSystemResourceAsStream("res/textures/" + fileName + ".text"), "UTF8");
+			Scanner s = new Scanner(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("res/textures/" + fileName + ".text")), "UTF8");
 
-			int amount = Integer.valueOf(s.nextLine());
+			int amount = Integer.parseInt(s.nextLine());
 
 			//Reading and saving of subimages
 			for (int i = 0; i < amount; i++) {
@@ -66,12 +66,10 @@ public class TextureHandler {
 					String[] line = s.nextLine().split(" ");
 
 					String texture = line[0];
-					int x = Integer.valueOf(line[1]);
-					int y = Integer.valueOf(line[2]);
-					int width = Integer.valueOf(line[3]);
-					int height = Integer.valueOf(line[4]);
-
-					System.out.println(spriteSheetName + "_" + texture);
+					int x = Integer.parseInt(line[1]);
+					int y = Integer.parseInt(line[2]);
+					int width = Integer.parseInt(line[3]);
+					int height = Integer.parseInt(line[4]);
 
 					textures_sprite_sheet.put(spriteSheetName + "_" + texture, new Rectangle(x, y, width, height));
 					textures_sprite_sheet_texture.put(spriteSheetName + "_" + texture, spriteSheetName);
@@ -155,30 +153,5 @@ public class TextureHandler {
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
 		return texture;
-	}
-
-	/**
-	 * Exports every texture in bigger scale => used for wiki textures
-	 **/
-	private static void exportTexturePng() {
-		for (String s : textures_sprite_sheet.keySet()) {
-			try {
-				BufferedImage i = getImagePng(s);
-				int width = i.getWidth();
-				int height = i.getHeight();
-				while (width < 100 && height < 100) {
-					width *= 2;
-					height *= 2;
-				}
-
-				BufferedImage ni = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-				ni.getGraphics().drawImage(i, 0, 0, width, height, null);
-
-				ImageIO.write(ni, "png", new File(System.getProperty("user.dir") + File.separator + "wiki_textures" + File.separator + s + ".png"));
-				System.out.println(new File(System.getProperty("user.dir") + s + ".png").getAbsolutePath());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 }

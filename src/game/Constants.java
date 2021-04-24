@@ -26,7 +26,7 @@ public class Constants {
 	public static final float GRAVITY_ACCELERATION_JUMPING = GRAVITY_ACCELERATION / 2;
 	public static final float MAX_GRAVITY_SPEED = 0.3f;
 
-	public static int PIXEL_PER_TILE = 8;
+	public static int PIXEL_PER_TILE = 16;
 	public static final float FONT_ASPECT = 1.4f; 				//font height : font width
 	public static final float FONT_SPACING = 1.2f; 				//1 + spacing : font width
 	public static final int MAX_PARTICLES = 1000;				//maximum particle count displayed simultaneously
