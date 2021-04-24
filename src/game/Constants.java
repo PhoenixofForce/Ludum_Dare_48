@@ -76,5 +76,5 @@ public class Constants {
 		}
 	}
 
-	public static final String START_AREA = "tutorial/tutorial";
+	public static final String START_AREA = "tut/map_0";
 }

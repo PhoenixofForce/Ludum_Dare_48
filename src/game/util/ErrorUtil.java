@@ -15,4 +15,10 @@ public class ErrorUtil {
 		Constants.ERR_STREAM.printf("[%s] Error: %s\n", Constants.FORMAT.format(new Date()), error);
 		System.exit(-1);
 	}
+
+	public static void printError(String error, Exception e) {
+		Constants.ERR_STREAM.printf("[%s] Error: %s\n", Constants.FORMAT.format(new Date()), error);
+		e.printStackTrace();
+		System.exit(-1);
+	}
 }

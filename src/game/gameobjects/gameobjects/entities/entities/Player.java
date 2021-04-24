@@ -20,12 +20,12 @@ import java.util.Set;
 public class Player extends BasicWalkingEntity implements Light {
 	private static final int INTERACT_TICKS = 5;
 
-	private static Sprite walking_r = new Sprite("player_r_move", 4, 100);
-	private static Sprite idle_r = new Sprite(250, "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_1");
-	private static Sprite falling_r = new Sprite("player_r_fall");
-	private static Sprite walking_l = new Sprite("player_l_move", 4, 100);
-	private static Sprite idle_l = new Sprite(250, "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_1");
-	private static Sprite falling_l = new Sprite("player_l_fall");
+	private static Sprite move_r = new Sprite("player_walk", 4, 100);
+	private static Sprite idle_r = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_1");
+	private static Sprite idle_special_r = new Sprite("player_idle_special", 10, 100);
+	private static Sprite jump_prep_r = new Sprite("player_jump_prep");
+	private static Sprite jump_air_r = new Sprite("player_jump_air");
+	private static Sprite jump_fall_r = new Sprite("player_jump_fall");
 
 	private Set<Ability> abilities;								//The abilities of the player
 	private boolean interactingLastTick;
@@ -77,10 +77,10 @@ public class Player extends BasicWalkingEntity implements Light {
 			this.addAbility(Ability.DOUBLE_JUMP);
 
 		Sprite newSprite = null;
-		if (!onGround && mx != 0) newSprite = (mx < 0 ? falling_l : falling_r);
-		if (!onGround && mx == 0) newSprite = (lastMX < 0 ? falling_l : falling_r);
-		if (onGround && mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
-		if (onGround && mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
+		if (!onGround && mx != 0) newSprite = (mx < 0 ? jump_fall_r : jump_fall_r);
+		if (!onGround && mx == 0) newSprite = (lastMX < 0 ? jump_fall_r : jump_fall_r);
+		if (onGround && mx == 0) newSprite = (lastMX < 0 ? idle_r : idle_r);
+		if (onGround && mx != 0) newSprite = (mx < 0 ? move_r : move_r);
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 

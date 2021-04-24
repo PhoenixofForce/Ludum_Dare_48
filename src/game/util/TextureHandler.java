@@ -30,8 +30,7 @@ public class TextureHandler {
 		//exportTexturePng();
 	}
 
-	private TextureHandler() {
-	}
+	private TextureHandler() {}
 
 	/**
 	 * Loads texture and saves it
@@ -41,6 +40,8 @@ public class TextureHandler {
 	 **/
 	public static void loadImagePng(String textureName, String fileName) {
 		try {
+			System.out.println("res/textures/" + fileName + ".png");
+			System.out.println(new File("res/textures/" + fileName + ".png").exists());
 			textures_png.put(textureName, ImageIO.read(ClassLoader.getSystemResource("res/textures/" + fileName + ".png")));
 		} catch (IOException e) {
 			ErrorUtil.printError(String.format("Loading texture: %s", textureName));
@@ -72,6 +73,8 @@ public class TextureHandler {
 					int width = Integer.valueOf(line[3]);
 					int height = Integer.valueOf(line[4]);
 
+					System.out.println(spriteSheetName + "_" + texture);
+
 					textures_sprite_sheet.put(spriteSheetName + "_" + texture, new Rectangle(x, y, width, height));
 					textures_sprite_sheet_texture.put(spriteSheetName + "_" + texture, spriteSheetName);
 				} catch (Exception e) {
@@ -79,7 +82,7 @@ public class TextureHandler {
 				}
 			}
 		} catch (Exception e) {
-			ErrorUtil.printError(String.format("Loading spriteSheet: %s (%s)", spriteSheetName, e.toString()));
+			ErrorUtil.printError(String.format("Loading spriteSheet: %s (%s)\r\n83@TextureHandler", spriteSheetName, e), e);
 		}
 	}
 
