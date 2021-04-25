@@ -7,7 +7,6 @@ import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
-import game.gameobjects.gameobjects.particle.ParticleType;
 import game.window.Window;
 import game.window.light.Light;
 
