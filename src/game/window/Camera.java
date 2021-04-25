@@ -95,7 +95,7 @@ public class Camera {
 	 * @param strength amplitude of the screenshake
 	 */
 	public void addScreenshake(float strength) {
-		screenshakeList.add(new Screenshake(TimeUtil.getTime(), Constants.DECAY, strength, strength, strength, (float) (Math.random() * 2 * Math.PI), (float) (Math.random() * 2 * Math.PI), (float) (Math.random() * 2 * Math.PI), 1, 1, 1));
+		if(Constants.USE_SCREENSHAKE) screenshakeList.add(new Screenshake(TimeUtil.getTime(), Constants.DECAY, strength, strength, strength, (float) (Math.random() * 2 * Math.PI), (float) (Math.random() * 2 * Math.PI), (float) (Math.random() * 2 * Math.PI), 1, 1, 1));
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package game.util;
 
+import game.Constants;
+import game.data.Sprite;
+
 import java.util.Random;
 
 /**
@@ -76,5 +79,14 @@ public class MathUtil {
 		r3.nextFloat();
 
 		return r3.nextFloat();
+	}
+
+	public static double getAnimationTicks(Sprite s) {
+		int tps = Constants.TPS;
+		double tickDuration = 1000.0 / tps;
+
+		int duration = s.getTotalTime();
+
+		return duration / tickDuration;
 	}
 }

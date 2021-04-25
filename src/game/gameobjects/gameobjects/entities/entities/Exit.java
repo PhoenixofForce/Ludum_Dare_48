@@ -12,6 +12,7 @@ import game.gameobjects.gameobjects.entities.BasicStaticEntity;
  * A door used to go into a new map
  */
 public class Exit extends BasicStaticEntity {
+
 	private static Sprite door = new Sprite("portal_idle", 5, 100);
 	private static Sprite door_deactivated = new Sprite("portal_empty");
 

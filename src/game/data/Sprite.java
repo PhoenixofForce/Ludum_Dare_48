@@ -67,4 +67,8 @@ public class Sprite {
 		}
 		return false;
 	}
+
+	public int getTotalTime() {
+		return time * textures.size();
+	}
 }

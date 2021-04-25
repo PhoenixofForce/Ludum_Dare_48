@@ -20,12 +20,12 @@ import java.util.Set;
 public class Player extends BasicWalkingEntity implements Light {
 	private static final int INTERACT_TICKS = 5;
 
-	private static Sprite move_r = new Sprite("player_walk", 4, 100);
-	private static Sprite idle_r = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_0", "player_idle_1", "player_idle_1");
-	private static Sprite idle_special_r = new Sprite("player_idle_special", 10, 100);
-	private static Sprite jump_prep_r = new Sprite("player_jump_prep");
-	private static Sprite jump_air_r = new Sprite("player_jump_air");
-	private static Sprite jump_fall_r = new Sprite("player_jump_fall");
+	private static Sprite move = new Sprite("player_walk", 4, 100);
+	private static Sprite idle = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_0", "player_idle_1", "player_idle_1");
+	private static Sprite idle_special = new Sprite("player_idle_special", 10, 100);
+	private static Sprite jump_prep = new Sprite("player_jump_prep");
+	private static Sprite jump_air = new Sprite("player_jump_air");
+	private static Sprite jump_fall = new Sprite("player_jump_fall");
 
 	private Set<Ability> abilities;								//The abilities of the player
 	private boolean interactingLastTick;
@@ -44,7 +44,7 @@ public class Player extends BasicWalkingEntity implements Light {
 
 		setWobble(0);
 
-		setSprite(idle_r);
+		setSprite(idle);
 	}
 
 	@Override
@@ -77,10 +77,10 @@ public class Player extends BasicWalkingEntity implements Light {
 			this.addAbility(Ability.DOUBLE_JUMP);
 
 		Sprite newSprite = null;
-		if (!onGround && mx != 0) newSprite = jump_fall_r;
-		if (!onGround && mx == 0) newSprite = jump_fall_r;
-		if (onGround && mx == 0) newSprite = idle_r;
-		if (onGround && mx != 0) newSprite = move_r;
+		if (!onGround && mx != 0) newSprite = jump_fall;
+		if (!onGround && mx == 0) newSprite = jump_fall;
+		if (onGround && mx == 0) newSprite = idle;
+		if (onGround && mx != 0) newSprite = move;
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 

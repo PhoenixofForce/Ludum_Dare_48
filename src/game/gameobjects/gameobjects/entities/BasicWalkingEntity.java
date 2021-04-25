@@ -23,7 +23,7 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 	protected boolean jumping;
 	protected boolean down;
 
-	private float maxSpeed = 1;
+	private float maxSpeed = 0.65f;
 	private float maxJumpHeight = 1;
 
 	public BasicWalkingEntity(HitBox hitBox, float drawingPriority) {

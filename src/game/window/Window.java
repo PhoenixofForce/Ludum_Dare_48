@@ -28,7 +28,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Window {
-	private float aspect = Constants.WINDOW_WIDTH / Constants.WINDOW_HEIGHT;
+	private float aspect = (float) Constants.WINDOW_WIDTH / Constants.WINDOW_HEIGHT;
 	private long window, audioDevice, audioContext;			//OpenGL IDs for the window and the audio context
 	private Keyboard keyboard;
 	private Camera camera;
@@ -111,7 +111,7 @@ public class Window {
 	 */
 	private void updateViewMatrix() {
 		boolean b = camera.update();
-		if (camera.getZoom() == Double.POSITIVE_INFINITY || camera.getZoom() == Double.NEGATIVE_INFINITY || camera.getZoom() == Double.NaN) {
+		if (camera.getZoom() == Double.POSITIVE_INFINITY || camera.getZoom() == Double.NEGATIVE_INFINITY || Double.isNaN(camera.getZoom())) {
 			camera.setZoom(1);
 			b = camera.update();
 		}
@@ -181,7 +181,7 @@ public class Window {
 		GL.createCapabilities();
 		System.out.println(String.format("OpenGL Version %s", GL11.glGetString(GL11.GL_VERSION)));
 
-		GL11.glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+		GL11.glClearColor(Constants.BACKGROUND_COLOR.getRed() / 255.0f, Constants.BACKGROUND_COLOR.getGreen() / 255.0f, Constants.BACKGROUND_COLOR.getBlue() / 255.0f, Constants.BACKGROUND_COLOR.getAlpha() / 255.0f);
 
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_CULL_FACE);

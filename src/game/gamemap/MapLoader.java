@@ -168,6 +168,14 @@ public class MapLoader {
 					map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
 				}
 
+				else if(texture.matches("clock_tower_.*")) {
+					map.addGameObject(new ClockTower(x, y, drawingPriority));
+				}
+
+				else if(texture.matches("door_.*")) {
+					map.addGameObject(new Door(x, y, drawingPriority));
+				}
+
 				else {
 					HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
 

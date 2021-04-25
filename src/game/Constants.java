@@ -2,6 +2,7 @@ package game;
 
 import game.window.Keyboard;
 
+import java.awt.*;
 import java.io.File;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,9 @@ public class Constants {
 
 	public static final Map<String, Integer> DEFAULT_CONTROLS = new HashMap<>();	//default controls for all 18 players
 	public static final float DEAD_ZONE = 0.2f;					//dead zone for controller triggers
+
+	public static final boolean USE_SCREENSHAKE = true;
+	public static final Color BACKGROUND_COLOR = new Color(105, 79, 98);
 
 	static {
 		DEFAULT_CONTROLS.put("UP0", Keyboard.KEY_W);

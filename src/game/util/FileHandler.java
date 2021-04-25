@@ -1,6 +1,7 @@
 package game.util;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class FileHandler {
 
@@ -12,7 +13,7 @@ public class FileHandler {
 	 */
 	public static String loadFile(String fileName) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("res/files/" + fileName), "UTF8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("res/files/" + fileName), StandardCharsets.UTF_8));
 
 			StringBuilder source = new StringBuilder();
 			String line;
@@ -30,7 +31,7 @@ public class FileHandler {
 
 	public static String loadFile(File file) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 
 			StringBuilder source = new StringBuilder();
 			String line;
