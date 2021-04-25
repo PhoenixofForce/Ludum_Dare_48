@@ -48,8 +48,7 @@ public class Exit extends BasicStaticEntity {
 	@Override
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
 		if (gameObject instanceof Player && interactionType == InteractionType.INTERACT) {
-			if (game.setGameMap(targetMap, true)) {
-				setSprite(door);
+			if (targetMap != null && targetMap.length() > 0 && game.setGameMap(targetMap, true)) {
 				if (onEntrance != null) onEntrance.get(game);
 			}
 		}

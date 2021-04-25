@@ -141,7 +141,7 @@ public class Game {
 				if (gameObject instanceof ParticleSystem) particleSystem = (ParticleSystem) gameObject;
 				if (gameObject instanceof Player) {
 					players.add((Player) gameObject);
-					((Player) gameObject).setColor(playerColors.get(players.size() - 1));
+					// ((Player) gameObject).setColor(playerColors.get(players.size() - 1));
 				}
 			}
 

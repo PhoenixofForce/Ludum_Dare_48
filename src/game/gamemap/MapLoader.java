@@ -154,7 +154,7 @@ public class MapLoader {
 				}
 
 				if(texture.matches("portal_.*")) {
-					String target = Constants.SYS_PREFIX + "world";
+					String target = "";
 					if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
 					map.addGameObject(new Exit(x, y+0.5f, drawingPriority, target, null));
 				}

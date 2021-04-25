@@ -36,6 +36,8 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 		useCamera = true;
 		wobble = 0;
 		mirrored = false;
+
+		setColor(new Color(0, 0, 0, 0));
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Ability;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -7,6 +8,8 @@ import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.BasicStaticEntity;
 import game.util.MathUtil;
+
+import java.awt.*;
 
 public class Door extends BasicStaticEntity {
 
@@ -47,9 +50,11 @@ public class Door extends BasicStaticEntity {
 
 	@Override
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
-		turning = true;
-		startTick = game.getGameTick();
-		setSprite(isOpen ? closing : opening);
+		if(gameObject instanceof Player && ((Player) gameObject).hasAbility(Ability.TIME_REWIND)) {
+			turning = true;
+			startTick = game.getGameTick();
+			setSprite(isOpen ? closing : opening);
+		}
 	}
 
 	@Override
@@ -68,6 +73,16 @@ public class Door extends BasicStaticEntity {
 			}
 
 			game.getCamera().addScreenshake(0.004f);
+		}
+
+		if(game.getPlayers().size() > 0 && game.getPlayers().get(0).hasAbility(Ability.TIME_REWIND)) {
+			if(!turning) {
+				setColor(Color.WHITE);
+				setWobble(0.4f);
+			} else {
+				setColor(new Color(0, 0, 0, 0));
+				setWobble(0.0f);
+			}
 		}
 	}
 }

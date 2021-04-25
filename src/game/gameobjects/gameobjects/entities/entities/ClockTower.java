@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Ability;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -7,9 +8,11 @@ import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.BasicStaticEntity;
 
+import java.awt.*;
+
 public class ClockTower extends BasicStaticEntity {
 
-	public Sprite idle = new Sprite("clock_tower", 8, 100);
+	public Sprite idle = new Sprite("clock_tower", 8, 150);
 	public Sprite deactivated = new Sprite("clock_tower_empty");
 
 	public boolean interacted = false;
@@ -31,9 +34,13 @@ public class ClockTower extends BasicStaticEntity {
 
 	@Override
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
-		if(interactionType == InteractionType.INTERACT && !interacted) {
+		if(interactionType == InteractionType.INTERACT && !interacted && gameObject instanceof Player) {
+			Player p = (Player) gameObject;
+
 			interacted = true;
 			this.setSprite(deactivated);
+
+			p.addAbility(Ability.TIME_REWIND);
 		}
 	}
 
