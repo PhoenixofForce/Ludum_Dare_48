@@ -24,9 +24,9 @@ public class Clock extends BasicDrawingEntity {
 
 	@Override
 	public void update(Game game) {
-		if (!this.sprite.equals(sprites[(game.getGameTick() / Constants.TPS) % 8])) {
+		if (!this.sprite.equals(sprites[((game.getGameTime()+8000*60) / Constants.TPS) % 8])) {
 			//TODO: Make Clock bigger for short period of time
-			setSprite(sprites[(game.getGameTick() / Constants.TPS) % 8]);
+			setSprite(sprites[((game.getGameTime()+8000*60) / Constants.TPS) % 8]);
 		}
 	}
 

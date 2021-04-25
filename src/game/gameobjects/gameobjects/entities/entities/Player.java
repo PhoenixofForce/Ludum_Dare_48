@@ -27,8 +27,8 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static Sprite jump_fall = new Sprite("player_jump_fall");
 
 	private Set<Ability> abilities;								//The abilities of the player
-	private boolean interactingLastTick;
-	private boolean interacting;
+	private boolean interactingLastTick, rewindingLastTick;
+	private boolean interacting, rewinding;
 	private int attack, interact;
 
 	public Player(float x, float y, float drawingPriority) {
@@ -72,6 +72,12 @@ public class Player extends BasicWalkingEntity implements Light {
 	public void update(Game game) {
 		super.update(game);
 
+		if (game.isFreezeFrame()) {
+			rewindingLastTick = rewinding;
+			interactingLastTick = interacting;
+			return;
+		}
+
 		if (game.getMap().getDirectory() == null)
 			this.addAbility(Ability.DOUBLE_JUMP);
 
@@ -106,6 +112,11 @@ public class Player extends BasicWalkingEntity implements Light {
 			interact++;
 		}
 
+		if (hasAbility(Ability.TIME_REWIND) && rewinding && !rewindingLastTick) {
+			game.rewind();
+		}
+
+		rewindingLastTick = rewinding;
 		interactingLastTick = interacting;
 	}
 
@@ -158,6 +169,10 @@ public class Player extends BasicWalkingEntity implements Light {
 
 	public void setInteracting(boolean interacting) {
 		this.interacting = interacting;
+	}
+
+	public void setRewinding(boolean rewinding) {
+		this.rewinding = rewinding;
 	}
 
 	public void addAbility(Ability ability) {

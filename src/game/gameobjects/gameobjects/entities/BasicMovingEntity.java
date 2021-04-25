@@ -33,6 +33,10 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 
 	@Override
 	public void update(Game game) {
+		if (game.isFreezeFrame()) {
+			return;
+		}
+
 		float vx_ = vx;
 		vx = 0;
 		vy += ky;

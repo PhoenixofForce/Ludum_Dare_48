@@ -43,6 +43,10 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 
 	@Override
 	public void update(Game game) {
+		if (game.isFreezeFrame()) {
+			return;
+		}
+
 		vx = mx * Constants.MAX_WALKING_SPEED * maxSpeed;
 		if (Math.abs(mx) >= 0.2f) lastMX = mx;
 

@@ -81,4 +81,8 @@ public class Constants {
 	}
 
 	public static final String START_AREA = "tut/map_0";
+
+	//total rewind time is REWIND_TICKS * REWIND_SPEED many ticks
+	public static final int REWIND_TICKS = 12;		//amount of ticks it takes for the rewind to complete
+	public static final int REWIND_SPEED = 10;		//ticks rewinded per tick^^
 }

@@ -45,13 +45,14 @@ public class Game {
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
 	private int gameTime;
-	private boolean freezeFrame;
+	private int freezeTicks;
 
 	public Game(Window window) {
 		this.window = window;
 		Options.applyOptions(this);
 
 		gameTick = 0;
+		freezeTicks = 0;
 
 		players = new ArrayList<>();
 		inputs = new ArrayList<>();
@@ -79,7 +80,12 @@ public class Game {
 		long time;
 
 		while (window.isRunning()) {
-			gameTime += 1;
+			if (freezeTicks > 0) {
+				freezeTicks -= 1;
+				gameTime -= Constants.REWIND_SPEED;
+			} else {
+				gameTime += 1;
+			}
 			gameTick++;
 			time = TimeUtil.getTime();
 			handleInput();
@@ -103,6 +109,7 @@ public class Game {
 
 				map = newGameMap;
 				gameTime = 0;
+				freezeTicks = 0;
 				map.load(this);
 				newMap = null;
 			}
@@ -187,6 +194,7 @@ public class Game {
 			player.setMx(keyboard.getPressed(Options.controls.get("RIGHT" + input)) - keyboard.getPressed(Options.controls.get("LEFT" + input)));
 			player.setDown(keyboard.isPressed(Options.controls.get("DOWN" + input)));
 			player.setInteracting(keyboard.isPressed(Options.controls.get("INTERACT" + input)));
+			player.setRewinding(keyboard.isPressed(Options.controls.get("ATTACK" + input)));
 			if (keyboard.isPressed(Options.controls.get("RESET" + input))) restartMap();
 		}
 	}
@@ -204,6 +212,10 @@ public class Game {
 	public void restartMap() {
 		if (map.getDirectory() != null && !map.getDirectory().equals("hidden"))
 			setGameMap(map.getDirectory() + "/" + map.getName(), true);
+	}
+
+	public void rewind() {
+		freezeTicks = Constants.REWIND_TICKS;
 	}
 
 	/**
@@ -370,6 +382,14 @@ public class Game {
 	 **/
 	public void clearValues() {
 		values.clear();
+	}
+
+	public int getGameTime() {
+		return gameTime;
+	}
+
+	public boolean isFreezeFrame() {
+		return freezeTicks > 0;
 	}
 
 	public GameMap getMap() {
