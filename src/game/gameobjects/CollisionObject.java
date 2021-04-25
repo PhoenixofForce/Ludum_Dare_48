@@ -41,6 +41,6 @@ public interface CollisionObject {
 	 * all possible interaction types
 	 **/
 	enum InteractionType {
-		ATTACK, INTERACT, STOMP
+		ATTACK, INTERACT, STOMP, REWIND
 	}
 }

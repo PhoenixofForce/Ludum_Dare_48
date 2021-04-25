@@ -1,4 +1,4 @@
-107
+109
 portal_empty 80 80 16 32
 portal_idle_0 0 80 16 32
 portal_idle_1 16 80 16 32
@@ -106,3 +106,5 @@ marble_4_12 304 0 16 16
 marble_4_13 304 16 16 16
 marble_4_14 304 32 16 16
 marble_4_15 304 48 16 16
+platform_past 128 96 32 6
+platform_now 128 106 32 6

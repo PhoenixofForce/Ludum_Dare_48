@@ -216,6 +216,11 @@ public class Game {
 
 	public void rewind() {
 		freezeTicks = Constants.REWIND_TICKS;
+		gameObjects.forEach(e -> {
+			if(e instanceof CollisionObject) {
+				((CollisionObject) e).interact(players.get(0), null, CollisionObject.InteractionType.REWIND);
+			}
+		});
 	}
 
 	/**

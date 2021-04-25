@@ -1,4 +1,4 @@
-22
+23
 normal 0 0 48 48
 jump_prep 48 0 48 48
 jump_air 96 0 48 48
@@ -21,3 +21,4 @@ idle_0 0 144 48 48
 idle_1 48 144 48 48
 idle_var_0 144 144 48 48
 idle_var_1 192 144 48 48
+kneeling 0 192 48 48

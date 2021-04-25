@@ -7,6 +7,7 @@ import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
+import game.util.MathUtil;
 import game.window.Window;
 import game.window.light.Light;
 
@@ -21,10 +22,13 @@ public class Player extends BasicWalkingEntity implements Light {
 
 	private static Sprite move = new Sprite("player_walk", 4, 100);
 	private static Sprite idle = new Sprite(100, "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_normal", "player_idle_0", "player_idle_0", "player_idle_1", "player_idle_1");
-	private static Sprite idle_special = new Sprite("player_idle_special", 10, 100);
+	private static Sprite idle_special = new Sprite("player_idle_special", 10, 200);
 	private static Sprite jump_prep = new Sprite("player_jump_prep");
 	private static Sprite jump_air = new Sprite("player_jump_air");
 	private static Sprite jump_fall = new Sprite("player_jump_fall");
+
+	private int idleCounter = 0;
+	private int specialIdleCounter = 0;
 
 	private Set<Ability> abilities;								//The abilities of the player
 	private boolean interactingLastTick, rewindingLastTick;
@@ -78,6 +82,7 @@ public class Player extends BasicWalkingEntity implements Light {
 			return;
 		}
 
+
 		if (game.getMap().getDirectory() == null)
 			this.addAbility(Ability.DOUBLE_JUMP);
 
@@ -87,7 +92,28 @@ public class Player extends BasicWalkingEntity implements Light {
 		if (onGround && mx == 0) newSprite = idle;
 		if (onGround && mx != 0) newSprite = move;
 
-		if (!sprite.equals(newSprite)) setSprite(newSprite);
+		if(sprite == idle) {
+			idleCounter++;
+			if(idleCounter == 60 * 30 && newSprite == idle)  {
+				newSprite = idle_special;
+				specialIdleCounter = game.getGameTick();
+			}
+		}
+
+		if(sprite == idle_special && newSprite == idle) newSprite = idle_special;
+		if(sprite == idle_special) {
+			if(game.getGameTick() - specialIdleCounter > MathUtil.getAnimationTicks(idle_special) - 1) {
+				newSprite = idle;
+			}
+		}
+
+		if (sprite != newSprite) {
+			if(newSprite == idle) {
+				idleCounter = 0;
+			}
+
+			setSprite(newSprite);
+		}
 
 		setMirrored(lastMX < 0);
 
