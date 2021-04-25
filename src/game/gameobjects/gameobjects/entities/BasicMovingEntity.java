@@ -173,5 +173,8 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 		this.ky += ky;
 	}
 
+	public void addVx(float vx) {
+		this.vx += vx;
+	}
 
 }

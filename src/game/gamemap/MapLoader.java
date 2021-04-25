@@ -176,18 +176,14 @@ public class MapLoader {
 					map.addGameObject(new Door(x, y, drawingPriority));
 				}
 
+				else if(texture.matches("platform_.*")) {
+					String target = "0";
+					if (tags.containsKey("dist")) target = tags.get("dist");
+					map.addGameObject(new Platform(x, y, drawingPriority, Float.valueOf(target)));
+				}
+
 				else {
 					HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
-
-					switch (texture) {
-						case "platform":
-						case "platform_left":
-						case "platform_middle":
-						case "platform_right":
-							hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
-							break;
-
-					}
 
 					add(layers, hitBox, texture, drawingPriority);
 				}

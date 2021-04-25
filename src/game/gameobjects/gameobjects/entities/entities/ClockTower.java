@@ -40,7 +40,7 @@ public class ClockTower extends BasicStaticEntity {
 			interacted = true;
 			this.setSprite(deactivated);
 
-			p.addAbility(Ability.TIME_REWIND);
+			game.getClock();
 		}
 	}
 

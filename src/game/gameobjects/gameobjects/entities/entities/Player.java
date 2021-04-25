@@ -138,7 +138,7 @@ public class Player extends BasicWalkingEntity implements Light {
 			interact++;
 		}
 
-		if (hasAbility(Ability.TIME_REWIND) && rewinding && !rewindingLastTick) {
+		if (game.hasClock() && rewinding && !rewindingLastTick) {
 			game.rewind();
 		}
 

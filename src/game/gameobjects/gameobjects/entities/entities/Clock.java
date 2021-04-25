@@ -43,7 +43,7 @@ public class Clock extends BasicDrawingEntity {
 	@Override
 	public void draw(Window window, long time) {
 
-		if (game.getPlayers().isEmpty() || !game.getPlayers().get(0).hasAbility(Ability.TIME_REWIND)) {
+		if (game.getPlayers().isEmpty() || !game.hasClock()) {
 			return;
 		}
 

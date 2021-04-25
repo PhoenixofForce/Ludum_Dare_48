@@ -50,7 +50,7 @@ public class Door extends BasicStaticEntity {
 
 	@Override
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
-		if(gameObject instanceof Player && ((Player) gameObject).hasAbility(Ability.TIME_REWIND) && interactionType == InteractionType.REWIND) {
+		if(gameObject instanceof Player && game.hasClock() && interactionType == InteractionType.REWIND) {
 			turning = true;
 			startTick = game.getGameTick();
 			setSprite(isOpen ? closing : opening);
@@ -75,7 +75,7 @@ public class Door extends BasicStaticEntity {
 			game.getCamera().addScreenshake(0.004f);
 		}
 
-		if(game.getPlayers().size() > 0 && game.getPlayers().get(0).hasAbility(Ability.TIME_REWIND)) {
+		if(game.getPlayers().size() > 0 && game.hasClock()) {
 			if(!turning) {
 				setColor(Color.WHITE);
 				setWobble(0.4f);

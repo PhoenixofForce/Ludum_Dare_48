@@ -5,7 +5,6 @@ import game.gamemap.MapLoader;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Fade;
-import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.entities.entities.Clock;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
@@ -47,12 +46,15 @@ public class Game {
 	private int gameTime;
 	private int freezeTicks;
 
+	private boolean hasClock;
+
 	public Game(Window window) {
 		this.window = window;
 		Options.applyOptions(this);
 
 		gameTick = 0;
 		freezeTicks = 0;
+		hasClock = false;
 
 		players = new ArrayList<>();
 		inputs = new ArrayList<>();
@@ -395,6 +397,14 @@ public class Game {
 
 	public boolean isFreezeFrame() {
 		return freezeTicks > 0;
+	}
+
+	public boolean hasClock() {
+		return hasClock;
+	}
+
+	public void getClock() {
+		this.hasClock = true;
 	}
 
 	public GameMap getMap() {
