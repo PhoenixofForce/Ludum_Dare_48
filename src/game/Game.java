@@ -65,7 +65,7 @@ public class Game {
 		toAdd = new ConcurrentLinkedQueue<>();
 		removeMapChange = new HashMap<>();
 
-		addGameObject(new Clock(0.2f));
+		addGameObject(new Clock(0.15f));
 
 		values = new HashMap<>();
 
