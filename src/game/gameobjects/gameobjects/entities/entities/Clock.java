@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Ability;
 import game.Constants;
 import game.Game;
 import game.data.Sprite;
@@ -38,6 +39,10 @@ public class Clock extends BasicDrawingEntity {
 	public static final float TIME_INCREASE = 150f;
 	@Override
 	public void draw(Window window, long time) {
+
+		if (game.getPlayers().isEmpty() || !game.getPlayers().get(0).hasAbility(Ability.TIME_REWIND)) {
+			return;
+		}
 
 		if (time - size_time > TIME_INCREASE) {
 			hitBox.width = size;
