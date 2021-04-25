@@ -9,12 +9,14 @@ import game.gameobjects.gameobjects.entities.BasicDrawingEntity;
 import game.util.TimeUtil;
 import game.window.Window;
 
+import java.awt.*;
+
 public class Clock extends BasicDrawingEntity {
 
 	private static Sprite[] sprites = new Sprite[8];
 	static {
 		for (int i = 0; i < 8; i++) {
-			sprites[i] = new Sprite(100, "clock_" + i);
+			sprites[i] = new Sprite("clock_" + i);
 		}
 	}
 
@@ -25,6 +27,7 @@ public class Clock extends BasicDrawingEntity {
 		this.size = size;
 		setSprite(sprites[0]);
 		setUseCamera(false);
+		setColor(new Color(46, 34, 47));
 	}
 
 	@Override
