@@ -1,6 +1,7 @@
 package game.gameobjects.gameobjects.entities.entities;
 
 import game.Ability;
+import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -121,7 +122,7 @@ public class Player extends BasicWalkingEntity implements Light {
 			for (CollisionObject collisionObject : game.getCollisionObjects()) {
 				if (collisionObject.equals(this)) continue;
 				for (HitBox hitBox2 : collisionObject.getCollisionBoxes()) {
-					if (hitBox2.collides(hitBox)) {
+					if (hitBox2.distance(hitBox) < Constants.INTERACTION_REACH) {
 						collisionObject.interact(this, hitBox, InteractionType.INTERACT);
 						break;
 					}

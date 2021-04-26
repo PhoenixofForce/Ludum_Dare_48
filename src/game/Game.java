@@ -1,10 +1,12 @@
 package game;
 
+import game.data.hitbox.HitBox;
 import game.gamemap.GameMap;
 import game.gamemap.MapLoader;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.Fade;
+import game.gameobjects.gameobjects.entities.BasicDrawingEntity;
 import game.gameobjects.gameobjects.entities.entities.Clock;
 import game.gameobjects.gameobjects.entities.entities.Player;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
@@ -14,6 +16,7 @@ import game.window.Camera;
 import game.window.Drawable;
 import game.window.Keyboard;
 import game.window.Window;
+import jdk.nashorn.internal.runtime.options.Option;
 
 import java.awt.*;
 import java.util.*;
@@ -130,6 +133,20 @@ public class Game {
 			for (GameObject gameObject : gameObjects) {
 				gameObject.update(this);
 			}
+
+			/*	//Highlight interactable objects
+			for (CollisionObject collisionObject : getCollisionObjects()) {
+				if (collisionObject instanceof Player || !(collisionObject instanceof BasicDrawingEntity)) continue;
+				for (HitBox hitBox2 : collisionObject.getCollisionBoxes()) {
+					Optional<Float> distance = players.stream().map(p -> p.getHitBox().distance(hitBox2)).min(Float::compare);
+					if((distance.orElse(Constants.INTERACTION_REACH + 1)) < Constants.INTERACTION_REACH) {
+						((BasicDrawingEntity) collisionObject).setColor(Color.WHITE);
+					} else {
+						((BasicDrawingEntity) collisionObject).setColor(new Color(0, 0, 0, 0));
+					}
+				}
+			}*/
+
 
 			//Sync the updates to TPS
 			long newTime = TimeUtil.getTime();

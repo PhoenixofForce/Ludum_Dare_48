@@ -51,6 +51,7 @@ public class Constants {
 
 	public static final boolean USE_SCREENSHAKE = true;
 	public static final Color BACKGROUND_COLOR = new Color(105, 79, 98);
+	public static final float INTERACTION_REACH = 1.5f;
 
 	static {
 		DEFAULT_CONTROLS.put("UP0", Keyboard.KEY_W);
