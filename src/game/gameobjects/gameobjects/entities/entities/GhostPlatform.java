@@ -9,20 +9,20 @@ import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 import game.gameobjects.gameobjects.entities.BasicStaticEntity;
 
-public class Platform extends BasicStaticEntity {
+public class GhostPlatform extends BasicStaticEntity {
 	public static final int PLATFORM_TIME = 4 * Constants.TPS;
-	private static Sprite platform = new Sprite("platform_now");
+	private static Sprite platform = new Sprite("platform_past");
 
 	private float dist;
 	private int startTick;
 	private float start_x;
-	public Platform(float x, float y, float drawingPriority, float dist) {
-		super(new HitBox(x, y, 2, 6 / 16f), drawingPriority, HitBox.HitBoxType.HALF_BLOCKING);
+	public GhostPlatform(float x, float y, float drawingPriority, float dist) {
+		super(new HitBox(x, y, 2, 6 / 16f), drawingPriority + 0.001f, HitBox.HitBoxType.NOT_BLOCKING);
 
 		this.dist = dist;
 		this.start_x = x;
 
-
+		setWobble(0.75f);
 		setSprite(platform);
 	}
 
@@ -33,17 +33,12 @@ public class Platform extends BasicStaticEntity {
 
 	@Override
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
-		if(direction == HitBoxDirection.UP && gameObject instanceof BasicMovingEntity) {
-			float y = dcubic(sawtooth((((game.getGameTime() - startTick) + 1000*PLATFORM_TIME) % PLATFORM_TIME) / (1f * PLATFORM_TIME)));
-
-			((BasicMovingEntity) gameObject).addVx(((game.getGameTime() - startTick + 1000 * PLATFORM_TIME) % PLATFORM_TIME) < PLATFORM_TIME / 2 ? 2 * dist *y  / PLATFORM_TIME : -2 * y* dist / PLATFORM_TIME);
-		}
 	}
 
 	@Override
 	public void init(Game game) {
 		super.init(game);
-		this.startTick = game.getGameTime();
+		this.startTick = game.getGameTime() - Constants.REWIND_TICKS * Constants.REWIND_SPEED;
 	}
 
 	@Override

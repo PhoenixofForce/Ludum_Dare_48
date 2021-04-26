@@ -116,47 +116,14 @@ public class Game {
 				newMap = null;
 			}
 
-			//Remove gameObjects
-			while (!toRemove.isEmpty()) {
-				GameObject gameObject = toRemove.poll();
-
-				boolean mapChange = removeMapChange.get(gameObject);
-				removeMapChange.remove(gameObject);
-
-				gameObject.remove(this, mapChange);
-				gameObjects.remove(gameObject);
-				if (gameObject instanceof CollisionObject) collisionObjects.remove(gameObject);
-				if (gameObject instanceof Drawable) window.removeDrawable((Drawable) gameObject);
-				if (gameObject instanceof ParticleSystem) particleSystem = null;
-				if (gameObject instanceof Player) {
-					int id = players.indexOf(gameObject);
-					players.remove(id);
-					inputs.remove(id);
-					Color color = playerColors.get(id);
-					playerColors.remove(id);
-					playerColors.add(color);
-				}
-			}
-
-			//Add gameObjects
-			while (!toAdd.isEmpty()) {
-				GameObject gameObject = toAdd.poll();
-
-				gameObject.init(this);
-
-				gameObjects.add(gameObject);
-				if (gameObject instanceof CollisionObject) collisionObjects.add((CollisionObject) gameObject);
-				if (gameObject instanceof Drawable) window.addDrawable((Drawable) gameObject);
-				if (gameObject instanceof ParticleSystem) particleSystem = (ParticleSystem) gameObject;
-				if (gameObject instanceof Player) {
-					players.add((Player) gameObject);
-					// ((Player) gameObject).setColor(playerColors.get(players.size() - 1));
-				}
-			}
+			removeObjects();
+			boolean addedNew = addObjects();
 
 			//Sort gameObjects for priority
-			collisionObjects.sort((o1, o2) -> Float.compare(o2.getCollisionPriority(), o1.getCollisionPriority()));
-			gameObjects.sort((o1, o2) -> Float.compare(o2.getPriority(), o1.getPriority()));
+			if(addedNew) {
+				collisionObjects.sort((o1, o2) -> Float.compare(o2.getCollisionPriority(), o1.getCollisionPriority()));
+				gameObjects.sort((o1, o2) -> Float.compare(o2.getPriority(), o1.getPriority()));
+			}
 
 			//Update every gameObject
 			map.update(this);
@@ -170,6 +137,53 @@ public class Game {
 		}
 
 		cleanUp();
+	}
+
+	private boolean addObjects() {
+		//Add gameObjects
+		boolean out = false;
+		while (!toAdd.isEmpty()) {
+			out = true;
+
+			GameObject gameObject = toAdd.poll();
+
+			gameObject.init(this);
+
+			gameObjects.add(gameObject);
+			if (gameObject instanceof CollisionObject) collisionObjects.add((CollisionObject) gameObject);
+			if (gameObject instanceof Drawable) window.addDrawable((Drawable) gameObject);
+			if (gameObject instanceof ParticleSystem) particleSystem = (ParticleSystem) gameObject;
+			if (gameObject instanceof Player) {
+				players.add((Player) gameObject);
+				// ((Player) gameObject).setColor(playerColors.get(players.size() - 1));
+			}
+		}
+
+		return out;
+	}
+
+	private void removeObjects() {
+		//Remove gameObjects
+		while (!toRemove.isEmpty()) {
+			GameObject gameObject = toRemove.poll();
+
+			boolean mapChange = removeMapChange.get(gameObject);
+			removeMapChange.remove(gameObject);
+
+			gameObject.remove(this, mapChange);
+			gameObjects.remove(gameObject);
+			if (gameObject instanceof CollisionObject) collisionObjects.remove(gameObject);
+			if (gameObject instanceof Drawable) window.removeDrawable((Drawable) gameObject);
+			if (gameObject instanceof ParticleSystem) particleSystem = null;
+			if (gameObject instanceof Player) {
+				int id = players.indexOf(gameObject);
+				players.remove(id);
+				inputs.remove(id);
+				Color color = playerColors.get(id);
+				playerColors.remove(id);
+				playerColors.add(color);
+			}
+		}
 	}
 
 	/**

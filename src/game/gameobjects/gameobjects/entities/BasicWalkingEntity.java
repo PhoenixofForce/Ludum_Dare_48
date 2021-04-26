@@ -13,6 +13,7 @@ import game.util.MathUtil;
  * A simple entity, that implements gravity, walking and jumping
  */
 public abstract class BasicWalkingEntity extends BasicMovingEntity {
+
 	protected boolean onGround, onLadder;
 	protected int jumpTicks, aerialTicks;
 	private boolean jumpingLastTick;

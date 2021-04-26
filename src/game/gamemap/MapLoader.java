@@ -89,128 +89,15 @@ public class MapLoader {
 			}
 
 			if (line.startsWith("[layer;")) {
-				String[] values = line.substring("[layer;".length(), line.length() - 1).split(";");
-
-				float drawingPriority = Float.parseFloat(values[0]);
-				int width = Integer.parseInt(values[1]);
-				int height = Integer.parseInt(values[2]);
-
-				Map<HitBox, String> hitBoxList;
-				if (layers.containsKey(drawingPriority)) {
-					hitBoxList = layers.get(drawingPriority);
-				} else {
-					hitBoxList = new HashMap<>();
-					layers.put(drawingPriority, hitBoxList);
-				}
-
-				for (int x = 0; x < width; x++) {
-					String[] valuesLine = values[3 + x].split(",");
-					for (int y = 0; y < height; y++) {
-						int tile = Integer.parseInt(valuesLine[y]);
-
-						if (tile != 0) {
-							String texture = textureReplacements.get(tile);
-							Rectangle textureBounds = TextureHandler.getSpriteSheetBounds("textures_" + texture);
-
-							HitBox hitBox = new HitBox(x, -y - textureBounds.height / tileSize, textureBounds.width / tileSize, textureBounds.height / tileSize);
-
-							switch (texture) {
-								case "platform":
-								case "platform_left":
-								case "platform_middle":
-								case "platform_right":
-									hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
-									break;
-
-							}
-
-							hitBoxList.put(hitBox, texture);
-						}
-					}
-				}
+				handleLayer(line, map, layers, textureReplacements, tileSize);
 			}
 
-
 			if (line.startsWith("[put;")) {
-				String[] values = line.substring("[put;".length(), line.length() - 1).replaceAll("\\[", "").replaceAll("]", "").split(";");
-
-				float drawingPriority = Float.parseFloat(values[0]);
-				String texture = textureReplacements.get(Integer.parseInt(values[1]));
-				Rectangle textureBounds = TextureHandler.getSpriteSheetBounds("textures_" + texture);
-				float x = Float.parseFloat(values[2]);
-				float y = -Float.parseFloat(values[3]) - textureBounds.height / tileSize;
-
-				Map<String, String> tags = new HashMap<>();
-
-				int i = 4;
-				while (i < values.length) {
-					if (values[i].equals("tag")) {
-						tags.put(values[i + 1], values[i + 2].replaceAll("\\?", ";").replaceAll("δ", ";"));
-						i++;
-						i++;
-					}
-
-					i++;
-				}
-
-				if(texture.matches("portal_.*")) {
-					String target = "";
-					if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
-					map.addGameObject(new Exit(x, y+0.5f, drawingPriority, target, null));
-				}
-
-				else if(texture.matches("player_.*")) {
-					map.setSpawnPoint(x, y, drawingPriority);
-					map.getCameraController().setSpawn(x, y);
-				}
-
-				else if(texture.matches("[A-z0-9]")) {
-					map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
-				}
-
-				else if(texture.matches("clock_tower_.*")) {
-					map.addGameObject(new ClockTower(x, y, drawingPriority));
-				}
-
-				else if(texture.matches("door_.*")) {
-					map.addGameObject(new Door(x, y, drawingPriority));
-				}
-
-				else if(texture.matches("platform_.*")) {
-					String target = "0";
-					if (tags.containsKey("dist")) target = tags.get("dist");
-					map.addGameObject(new Platform(x, y, drawingPriority, Float.valueOf(target)));
-				}
-
-				else {
-					HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
-
-					add(layers, hitBox, texture, drawingPriority);
-				}
+				handlePut(line, map, layers, textureReplacements, tileSize);
 			}
 
 			if (line.startsWith("[area;")) {
-				String[] values = line.substring("[area;".length(), line.length() - 1).replaceAll("\\[", "").replaceAll("]", "").split(";");
-
-				float x1 = Float.parseFloat(values[0]);
-				float y2 = -Float.parseFloat(values[1]);
-				float x2 = Float.parseFloat(values[2]);
-				float y1 = -Float.parseFloat(values[3]);
-
-				Map<String, String> tags = new HashMap<>();
-
-				int i = 4;
-				while (i < values.length) {
-					if (values[i].equals("tag")) {
-						tags.put(values[i + 1], values[i + 2].replaceAll("\\?", ";").replaceAll("δ", ";"));
-						i++;
-						i++;
-					}
-
-					i++;
-				}
-
-				map.getCameraController().addCameraArea(new Area(x1, y1, x2, y2));
+				handleArea(line, map, layers, textureReplacements, tileSize);
 			}
 		}
 
@@ -222,6 +109,131 @@ public class MapLoader {
 		}
 		return map;
 	}
+
+	public static void handleLayer(String line, GameMap map, Map<Float, Map<HitBox, String>> layers, Map<Integer, String> textureReplacements, float tileSize) {
+		String[] values = line.substring("[layer;".length(), line.length() - 1).split(";");
+
+		float drawingPriority = Float.parseFloat(values[0]);
+		int width = Integer.parseInt(values[1]);
+		int height = Integer.parseInt(values[2]);
+
+		Map<HitBox, String> hitBoxList;
+		if (layers.containsKey(drawingPriority)) {
+			hitBoxList = layers.get(drawingPriority);
+		} else {
+			hitBoxList = new HashMap<>();
+			layers.put(drawingPriority, hitBoxList);
+		}
+
+		for (int x = 0; x < width; x++) {
+			String[] valuesLine = values[3 + x].split(",");
+			for (int y = 0; y < height; y++) {
+				int tile = Integer.parseInt(valuesLine[y]);
+
+				if (tile != 0) {
+					String texture = textureReplacements.get(tile);
+					Rectangle textureBounds = TextureHandler.getSpriteSheetBounds("textures_" + texture);
+
+					HitBox hitBox = new HitBox(x, -y - textureBounds.height / tileSize, textureBounds.width / tileSize, textureBounds.height / tileSize);
+
+					switch (texture) {
+						case "platform":
+						case "platform_left":
+						case "platform_middle":
+						case "platform_right":
+							hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
+							break;
+
+					}
+
+					hitBoxList.put(hitBox, texture);
+				}
+			}
+		}
+	}
+
+	public static void handlePut(String line, GameMap map, Map<Float, Map<HitBox, String>> layers, Map<Integer, String> textureReplacements, float tileSize) {
+		String[] values = line.substring("[put;".length(), line.length() - 1).replaceAll("\\[", "").replaceAll("]", "").split(";");
+
+		float drawingPriority = Float.parseFloat(values[0]);
+		String texture = textureReplacements.get(Integer.parseInt(values[1]));
+		Rectangle textureBounds = TextureHandler.getSpriteSheetBounds("textures_" + texture);
+		float x = Float.parseFloat(values[2]);
+		float y = -Float.parseFloat(values[3]) - textureBounds.height / tileSize;
+
+		Map<String, String> tags = new HashMap<>();
+
+		int i = 4;
+		while (i < values.length) {
+			if (values[i].equals("tag")) {
+				tags.put(values[i + 1], values[i + 2].replaceAll("\\?", ";").replaceAll("δ", ";"));
+				i++;
+				i++;
+			}
+
+			i++;
+		}
+
+		if(texture.matches("portal_.*")) {
+			String target = "";
+			if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
+			map.addGameObject(new Exit(x, y+0.5f, drawingPriority, target, null));
+		}
+
+		else if(texture.matches("player_.*")) {
+			map.setSpawnPoint(x, y, drawingPriority);
+			map.getCameraController().setSpawn(x, y);
+		}
+
+		else if(texture.matches("[A-z0-9]")) {
+			map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
+		}
+
+		else if(texture.matches("clock_tower_.*")) {
+			map.addGameObject(new ClockTower(x, y, drawingPriority));
+		}
+
+		else if(texture.matches("door_.*")) {
+			map.addGameObject(new Door(x, y, drawingPriority));
+		}
+
+		else if(texture.matches("platform_.*")) {
+			String target = "0";
+			if (tags.containsKey("dist")) target = tags.get("dist");
+			map.addGameObject(new Platform(x, y, drawingPriority, Float.parseFloat(target)));
+			map.addGameObject(new GhostPlatform(x, y, drawingPriority, Float.parseFloat(target)));
+		}
+
+		else {
+			HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
+			add(layers, hitBox, texture, drawingPriority);
+		}
+	}
+
+	public static void handleArea(String line, GameMap map, Map<Float, Map<HitBox, String>> layers, Map<Integer, String> textureReplacements, float tileSize) {
+		String[] values = line.substring("[area;".length(), line.length() - 1).replaceAll("\\[", "").replaceAll("]", "").split(";");
+
+		float x1 = Float.parseFloat(values[0]);
+		float y2 = -Float.parseFloat(values[1]);
+		float x2 = Float.parseFloat(values[2]);
+		float y1 = -Float.parseFloat(values[3]);
+
+		Map<String, String> tags = new HashMap<>();
+
+		int i = 4;
+		while (i < values.length) {
+			if (values[i].equals("tag")) {
+				tags.put(values[i + 1], values[i + 2].replaceAll("\\?", ";").replaceAll("δ", ";"));
+				i++;
+				i++;
+			}
+
+			i++;
+		}
+
+		map.getCameraController().addCameraArea(new Area(x1, y1, x2, y2));
+	}
+
 	/**
 	 * adds a texture to a a list of layers
 	 * @param layers the list of layers

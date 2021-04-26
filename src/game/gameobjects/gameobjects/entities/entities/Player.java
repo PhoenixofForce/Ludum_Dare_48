@@ -36,7 +36,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	private int attack, interact;
 
 	public Player(float x, float y, float drawingPriority) {
-		super(new HitBox(x, y, 0.25f, 0.999f), drawingPriority);
+		super(new HitBox(x, y, 0.25f, 0.999f), drawingPriority - 0.001f);
 
 		abilities = new HashSet<>();
 		interacting = false;
