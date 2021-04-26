@@ -1,5 +1,5 @@
-i: C:\Users\Ole\Desktop\ld_48\textures_unpacked.text
-i: C:\Users\Ole\Desktop\ld_48\player_unpacked.text
+i: textures_unpacked.text
+i: player_unpacked.text
 w: 48
 h: 48
 t: 16
